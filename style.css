@@ -1,0 +1,99 @@
+body{
+    margin:0;
+    padding: 50px auto;
+    font-family: sans-serif;
+    background-color: lightgray;
+}
+.calculator{
+    margin:auto;
+    width:300px;
+    background-color: gray;
+    padding:10px;
+    border: 1px solid black;
+    border-radius:10px;
+    display:flex;
+    justify-content: center;
+    height:75vh;
+     
+}
+.button{
+
+ border: 1px solid ;
+ border-radius:20%;
+ background-color: black;
+ color:white;
+ margin:10px;
+ padding:10px;
+ text-align:center;
+ overflow: hidden;
+ white-space: nowrap;
+
+}
+.button:active{
+    background:lightgrey;
+}
+
+.button:focus{
+    background:lightgray;
+}
+h1{
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    animation: salman 1s ease-in-out  forwards ;
+    animation-duration: 2s;
+}
+@keyframes salman {
+   0%{opacity: 0;transform: translateY(-20px);content:"";} 
+  
+   50%{opacity: 0.5;transform: translateY(10px);content:"calculator";}
+
+   100%{opacity: 1;} 
+}
+
+.screan{
+    
+    margin:10px;
+    height:70px;
+    background-color: aliceblue;
+    grid-column:span 4;
+    text-align: right;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+.current-operation{
+height:60%;
+font-size: x-large;
+padding-top: 15px;
+font: weight 600px;
+}
+.last-operation{
+height:40%;
+font-size: small;
+font-weight: 300;
+
+
+}
+.grid{
+    display:grid;
+    grid-gap :5px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    /* background-color: bisque; */
+    padding:10px;
+    margin:10px;
+    width:90%
+
+}
+.btn{
+    grid-column:span 2;
+   
+}
+.footer{
+    text-align :center;
+    margin-top: 20px;
+    color:gray
+}
+ @media screen and (min-width:962px) {
+    .body{
+        width: 400px;
+    }
+}
