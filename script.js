@@ -10,7 +10,7 @@ let firstoperand="";
 let secondoperand="";
 let operation=NaN;
 let point;
-let hold=true;
+let hold=false;
 
 
 const keyboard=(e)=>{
@@ -40,6 +40,7 @@ const write=(number)=>{
     if(number===(".")&currentscrean.firstChild.textContent===("0")){
       currentscrean.firstChild.textContent=("")
       currentscrean.appendChild(document.createTextNode("0."))
+      operationscrean.textContent=""
     // if . is the first number we clicked 0. will be showed
    }else{
       
@@ -56,9 +57,10 @@ const write=(number)=>{
              }
            
           }
-       
+       hold=true;
    
 }
+
 
 number.forEach(number=>{
    number.addEventListener("click",()=>{
@@ -67,16 +69,22 @@ number.forEach(number=>{
    })
 })
 
+
+   
+   
+
 const operationOperator=()=>{
+   if(hold===false&operationscrean.textContent.includes("")){
+      return false}   
    // here we want operation to happen if already operator was there and we click another operator
- 
+ else{
    if(operationscrean.textContent.includes("+")){
-         if(operationscrean.textContent.endsWith("+")&operationscrean.textContent==="0+"){operationscrean.textContent=("")}
-           else{ operation=add(secondoperand,firstoperand)
+         
+           operation=add(secondoperand,firstoperand)
             currentscrean.textContent=(operation)
             operationscrean.textContent=("")
           firstoperand=operation
-          operation=NaN}
+          operation=NaN
         }
         else if(operationscrean.textContent.includes("-")){
          
@@ -95,14 +103,14 @@ const operationOperator=()=>{
           operation=NaN
         }
         else if(operationscrean.textContent.includes("÷")){
-         if(operationscrean.textContent.endsWith("÷")&operationscrean.textContent==="0÷"){operationscrean.textContent=("")}
-         else{ operation=divide(secondoperand,firstoperand)
+         
+          operation=divide(secondoperand,firstoperand)
             currentscrean.textContent=(operation)
             operationscrean.textContent=("")
           firstoperand=operation
           operation=NaN}
         }
-      
+             
 }
 operator.forEach(operator=>{ operator.addEventListener("click",()=>{
    operationOperator()
@@ -110,12 +118,15 @@ operator.forEach(operator=>{ operator.addEventListener("click",()=>{
 })
 
 const pressOperator=(oper)=>{ 
-   
-  
+
+   if(hold===false&operationscrean.textContent.includes("")){
+      operationscrean.textContent=(parseInt(currentscrean.textContent)+oper)}
+         
+  if(hold){
 operationscrean.appendChild(document.createTextNode(currentscrean.textContent+oper))// to produce like 1+ or 2-
 
- currentscrean.textContent=firstoperand// after operator we want current screan to adapt the new number and remove old one
- if(currentscrean.textContent===""){currentscrean.textContent=("0")}
+ if(firstoperand!=="")currentscrean.textContent=firstoperand// after operator we want current screan to adapt the new number and remove old one
+
 if(operationscrean.textContent.includes(".")){
    //parseInt doesnt read . so we used numbers but the proplem is numbers return NaN if string is like "1.2+" so we removed the symbols
  if(operationscrean.textContent.includes("×")) {point= operationscrean.textContent.replace("×","") }
@@ -126,8 +137,8 @@ if(operationscrean.textContent.includes(".")){
     }else {
  secondoperand=parseInt(operationscrean.textContent)//second operand = whatevere in operation screan removed from the symbol since parseInt cant read symbols
     }
-
-
+   }
+hold=false;
 }
 operator.forEach(operator=>{  operator.addEventListener("click",()=>{ 
    pressOperator(operator.textContent)
@@ -175,9 +186,13 @@ function divide(a,b){return a/b}
 // clear button removes all data
 const clearButton=()=>{
    
-    currentscrean.textContent=("0")
-    operationscrean.textContent=("")
-    firstoperand=""
+    currentscrean.textContent=("")
+    operationscrean.textContent=""
+    currentscrean.appendChild(document.createTextNode("0"))
+    operation=NaN
+    secondoperand=""
+    hold=false
+    firstoperand=currentscrean.textContent
 
 }
 const deleteButton=()=>{
@@ -185,12 +200,14 @@ const deleteButton=()=>{
    if(currentscrean.textContent!==("0")){
      currentscrean.lastChild.remove();
      if(currentscrean.textContent===("")){currentscrean.textContent=("0")}
+     firstoperand=""
     }
 }
 clearbtn.addEventListener("click",(clearButton))
 deletebtn.addEventListener("click",(deleteButton))
-clearButton();
-deleteButton();
+
+
 
 
   
+
