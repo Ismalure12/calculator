@@ -6,11 +6,13 @@ const equal=document.querySelector(".equal")
 const operator=document.querySelectorAll(".data-operator")
 const currentscrean=document.querySelector(".current-operation")
 const operationscrean=document.querySelector(".last-operation")
+const decimal=document.querySelector(".decimal")
 let firstoperand="";
 let secondoperand="";
 let operation=NaN;
 let point;
 let hold=false;
+
 
 
 const keyboard=(e)=>{
@@ -33,10 +35,16 @@ const keyboard=(e)=>{
 }
 window.addEventListener("keydown",(keyboard))
 
+
+
+
 const write=(number)=>{
       if(number===(".")&currentscrean.textContent.includes(".")){
+         if(operation){ currentscrean.appendChild(document.createTextNode("0"));operation===NaN}else{
          return false// if already point is there another wont write
+         }
        }
+    
     if(number===(".")&currentscrean.firstChild.textContent===("0")){
       currentscrean.firstChild.textContent=("")
       currentscrean.appendChild(document.createTextNode("0."))
@@ -46,6 +54,8 @@ const write=(number)=>{
       
              currentscrean.firstChild.textContent=("")//since the first number is 0 we want to remove when clicked one of numbers
             if(currentscrean.textContent.length<=15)  currentscrean.appendChild(document.createTextNode(number))
+            if(currentscrean.textContent==="."){currentscrean.lastChild.textContent=("")
+                currentscrean.appendChild(document.createTextNode("0."))}
              firstoperand=parseInt(currentscrean.textContent)//since text current screan text content is string we converted to num
              if(currentscrean.textContent.includes(".")){
              firstoperand=Number(currentscrean.textContent)//parseInt doesnt read . so we used numbers
@@ -70,8 +80,7 @@ number.forEach(number=>{
 })
 
 
-   
-   
+
 
 const operationOperator=()=>{
    if(hold===false&operationscrean.textContent.includes("")){
@@ -103,12 +112,17 @@ const operationOperator=()=>{
           operation=NaN
         }
         else if(operationscrean.textContent.includes("÷")){
-         
+         if(firstoperand===0){
+            currentscrean.textContent="Cannot divide by zero"
+            operationscrean.textContent=""
+            firstoperand=currentscrean.textContent
+           }else{ 
           operation=divide(secondoperand,firstoperand)
             currentscrean.textContent=(operation)
             operationscrean.textContent=("")
           firstoperand=operation
           operation=NaN}
+           }
         }
              
 }
@@ -120,9 +134,12 @@ operator.forEach(operator=>{ operator.addEventListener("click",()=>{
 const pressOperator=(oper)=>{ 
 
    if(hold===false&operationscrean.textContent.includes("")){
+      (currentscrean.textContent==="Cannot divide by zero")? false : 
       operationscrean.textContent=(parseInt(currentscrean.textContent)+oper)}
          
   if(hold){
+(currentscrean.textContent==="Cannot divide by zero")? false : 
+   
 operationscrean.appendChild(document.createTextNode(currentscrean.textContent+oper))// to produce like 1+ or 2-
 
  if(firstoperand!=="")currentscrean.textContent=firstoperand// after operator we want current screan to adapt the new number and remove old one
@@ -167,14 +184,19 @@ const setoperation=()=>{
         operation=multiply(firstoperand,secondoperand)
         operationscrean.textContent=(operationscrean.textContent+currentscrean.textContent+"=")
      currentscrean.textContent=(operation)
-     }
+     } 
+    
      if(operationscrean.textContent.includes("÷")){
+      if(firstoperand===0){
+         currentscrean.textContent="Cannot divide by zero"
+         operationscrean.textContent=""
+        }else{
         operation=divide(secondoperand,firstoperand)
         operationscrean.textContent=(operationscrean.textContent+currentscrean.textContent+"=")
-     currentscrean.textContent=(operation)
+     currentscrean.textContent=(operation)}
+   
      }
-     
-
+  
 }
 equal.addEventListener("click",(setoperation))
 
@@ -197,11 +219,15 @@ const clearButton=()=>{
 }
 const deleteButton=()=>{
    // this deletes the last Number in currentscrean
+   if(operation){operationscrean.textContent=""
+   firstoperand=currentscrean.textContent;operation=NaN}
+   else{
    if(currentscrean.textContent!==("0")){
      currentscrean.lastChild.remove();
      if(currentscrean.textContent===("")){currentscrean.textContent=("0")}
      firstoperand=""
-    }
+     operation=NaN
+    }}
 }
 clearbtn.addEventListener("click",(clearButton))
 deletebtn.addEventListener("click",(deleteButton))
@@ -210,4 +236,5 @@ deletebtn.addEventListener("click",(deleteButton))
 
 
   
+
 
