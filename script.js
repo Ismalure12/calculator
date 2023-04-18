@@ -105,7 +105,7 @@ const operationOperator=()=>{
         }
        else if(operationscrean.textContent.includes("×")){
          
-            operation=multiply(secondoperand,firstoperand)
+         operation=roundResult(multiply(firstoperand,secondoperand)) 
             currentscrean.textContent=(operation)
             operationscrean.textContent=("")
           firstoperand=operation
@@ -117,7 +117,7 @@ const operationOperator=()=>{
             operationscrean.textContent=""
             firstoperand=currentscrean.textContent
            }else{ 
-          operation=divide(secondoperand,firstoperand)
+            operation=roundResult(divide(firstoperand,secondoperand)) 
             currentscrean.textContent=(operation)
             operationscrean.textContent=("")
           firstoperand=operation
@@ -176,12 +176,12 @@ const setoperation=()=>{
     
     }
     if(operationscrean.textContent.includes("-")){
-        operation=sub(secondoperand,firstoperand)
+      operation=sub(firstoperand,secondoperand)
         operationscrean.textContent=(operationscrean.textContent+currentscrean.textContent+"=")
      currentscrean.textContent=(operation)
      }
      if(operationscrean.textContent.includes("×")){
-        operation=multiply(firstoperand,secondoperand)
+      operation=roundResult(multiply(firstoperand,secondoperand)) 
         operationscrean.textContent=(operationscrean.textContent+currentscrean.textContent+"=")
      currentscrean.textContent=(operation)
      } 
@@ -191,7 +191,7 @@ const setoperation=()=>{
          currentscrean.textContent="Cannot divide by zero"
          operationscrean.textContent=""
         }else{
-        operation=divide(secondoperand,firstoperand)
+         operation=roundResult(divide(firstoperand,secondoperand)) 
         operationscrean.textContent=(operationscrean.textContent+currentscrean.textContent+"=")
      currentscrean.textContent=(operation)}
    
@@ -204,6 +204,9 @@ function add(a,b){return a+b}
 function sub(a,b){return a-b}
 function multiply(a,b){return a*b}
 function divide(a,b){return a/b}
+function roundResult(number) {
+   return Math.round(number * 1000) / 1000
+ }
 // write(operator)
 // clear button removes all data
 const clearButton=()=>{
@@ -236,5 +239,4 @@ deletebtn.addEventListener("click",(deleteButton))
 
 
   
-
 
